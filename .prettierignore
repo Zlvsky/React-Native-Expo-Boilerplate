@@ -1,0 +1,8 @@
+dist
+node_modules
+.next
+build
+.contentlayer
+.husky
+.expo
+.vscode
