@@ -1,5 +1,7 @@
 import { Text, View } from 'react-native';
 import './global.css'
+import './i18n/config'
+import 'react-native-reanimated'
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PortalHost } from '@rn-primitives/portal';
