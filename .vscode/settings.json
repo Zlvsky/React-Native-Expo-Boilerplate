@@ -1,0 +1,14 @@
+{
+    "i18n-ally.localesPaths": [
+        "i18n",
+        "reference/i18n",
+        "ios/Pods/ReactNativeDependencies/Headers/folly/lang",
+        "reference/ios/Pods/RCT-Folly/folly/lang",
+        "ios/Pods/Headers/Public/ReactNativeDependencies/folly/lang",
+        "ios/Pods/Headers/Private/ReactNativeDependencies/folly/lang",
+        "reference/ios/Pods/boost/boost/predef/language",
+        "reference/ios/Pods/Headers/Private/RCT-Folly/folly/lang",
+        "reference/ios/Pods/Headers/Public/RCT-Folly/folly/lang",
+        "ios/Pods/ReactNativeDependencies/framework/packages/react-native/ReactNativeDependencies.xcframework/Headers/folly/lang"
+    ]
+}
