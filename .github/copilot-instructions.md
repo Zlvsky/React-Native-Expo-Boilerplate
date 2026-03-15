@@ -4,51 +4,13 @@
 
 This is a **React Native Expo** mobile game application built with TypeScript and NativeWind (Tailwind CSS for React Native). The project follows strict code quality standards focused on performance, stability, and accessibility.
 
-## Project Structure
-
-```
-realm-of-dungeons-mobile/
-├── App.tsx                    # Application entry point
-├── screens/                   # Screen components (pages)
-├── components/
-│   ├── ui/                    # Reusable UI components (Button, Text, Card, etc.)
-│   ├── primitives/            # Low-level primitive components (Dialog, Select, Tabs)
-│   ├── arena/                 # Arena-related components
-│   ├── battle/                # Battle system components
-│   ├── character/             # Character-related components
-│   ├── guild/                 # Guild system components
-│   ├── merchants/             # Merchant/shop components
-│   ├── realms/                # Realm exploration components
-│   ├── village/               # Village components
-│   └── ...                    # Other feature-specific component folders
-├── store/
-│   ├── index.ts               # Store exports with predefined selectors
-│   ├── slices/                # Zustand store slices (characterCoreStore, etc.)
-│   ├── queryKeys.ts           # Centralized React Query keys
-│   └── types.ts               # Store type definitions
-├── hooks/                     # Custom React hooks
-├── api/
-│   ├── services/              # API service functions
-│   └── interceptors.ts        # Axios interceptors
-├── data/                      # Static data and configurations
-├── types/                     # TypeScript type definitions
-├── utils/                     # Utility functions
-├── lib/
-│   └── utils/                 # Core utilities (cn, scaledSizes, scaling functions)
-├── i18n/
-│   └── translations/          # Translation JSON files (en.json, etc.)
-├── navigation/                # React Navigation setup
-├── assets/                    # Fonts, images, icons, sprites
-└── scripts/                   # Build and generation scripts
-```
 
 ## Tech Stack
 
-- **Framework**: React Native with Expo SDK 53
+- **Framework**: React Native with Expo SDK 55
 - **Language**: TypeScript
 - **Styling**: NativeWind (Tailwind CSS for React Native)
 - **State Management**: Zustand with Immer middleware
-- **Data Fetching**: TanStack Query (React Query)
 - **Navigation**: React Navigation
 - **Internationalization**: i18next / react-i18next
 - **Package Manager**: **npm** - never use pnpm or yarn
@@ -266,7 +228,9 @@ export const selectExampleData = (state: IExampleStore) => state.data
 export const selectExampleLoading = (state: IExampleStore) => state.isLoading
 ```
 
-### React Query Integration
+### React Query Integration (if applicable)
+
+When using React Query, always use centralized query keys from `store/queryKeys`:
 
 ```tsx
 import { queryKeys } from '@/store/queryKeys'
@@ -279,7 +243,7 @@ const { data } = useQuery({
 })
 ```
 
-## API Integration
+## API Integration (if applicable)
 
 ```tsx
 // api/services/exampleRoutes.ts
