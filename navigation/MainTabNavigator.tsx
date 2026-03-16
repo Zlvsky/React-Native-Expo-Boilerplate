@@ -2,8 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { memo } from 'react'
 import { StatusBar } from 'react-native'
 
-import CharacterScreen from '@/screens/character/CharacterScreen'
-import SettingsScreen from '@/screens/settings/SettingsScreen'
+import HomeNavigator from '@/navigation/HomeNavigator'
+import SettingsNavigator from '@/navigation/SettingsNavigator'
 
 export type MainTabParamList = {
   Home: undefined
@@ -22,8 +22,8 @@ const MainTabNavigator = memo(() => {
     <>
       <StatusBar barStyle="dark-content" />
       <Tab.Navigator screenOptions={SCREEN_OPTIONS} initialRouteName="Home">
-        <Tab.Screen name="Home" component={CharacterScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen name="Home" component={HomeNavigator} />
+        <Tab.Screen name="Settings" component={SettingsNavigator} />
       </Tab.Navigator>
     </>
   )

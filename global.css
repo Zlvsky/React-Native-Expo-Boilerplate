@@ -35,10 +35,6 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -81,7 +77,6 @@
   --chart-3: #5b9ee8;
   --chart-4: #b07be0;
   --chart-5: #e87060;
-  --radius: 0.75rem;
   --sidebar: #f0ead5;
   --sidebar-foreground: #2c1a0e;
   --sidebar-primary: #b8832a;
