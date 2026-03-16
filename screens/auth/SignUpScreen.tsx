@@ -40,11 +40,9 @@ const SignUpScreen = memo(() => {
   }, [navigation])
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1">
-        <View className="flex-1 justify-center gap-6 p-8">
+    <SafeAreaView className="bg-background flex-1" edges={['top', 'bottom']}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <View className="h-full justify-center gap-6 p-8">
           <View className="gap-1">
             <Text variant="h2" accessible accessibilityRole="header">
               Create Account

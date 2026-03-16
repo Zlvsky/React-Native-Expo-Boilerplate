@@ -8,13 +8,16 @@ const CharacterScreen = memo(() => {
   const user = useUser()
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <View className="flex-1 items-center justify-center gap-4 p-6">
+    <SafeAreaView className="bg-background flex-1" edges={['top', 'bottom']}>
+      <View className="h-full items-center justify-center gap-4 p-6">
         <Text variant="h2" accessible accessibilityRole="header">
           Home
         </Text>
         {user ? (
-          <Text variant="muted" accessible accessibilityLabel={`Welcome back, ${user.name}`}>
+          <Text
+            variant="muted"
+            accessible
+            accessibilityLabel={`Welcome back, ${user.name}`}>
             Welcome back, {user.name}!
           </Text>
         ) : (

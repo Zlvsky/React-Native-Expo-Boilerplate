@@ -1,7 +1,7 @@
-import React from 'react'
-import { Platform } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
+import React from 'react'
+import { Platform } from 'react-native'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { useShallow } from 'zustand/react/shallow'
@@ -50,7 +50,7 @@ const createSecureStorage = () => ({
     } catch {
       // Do not throw on remove errors to prevent crashes
     }
-  },
+  }
 })
 
 interface SessionState {
@@ -73,7 +73,7 @@ const INITIAL_STATE = {
   user: null,
   isLoading: true,
   secureDataLoaded: false,
-  isAuthenticated: false,
+  isAuthenticated: false
 } as const
 
 export const useSessionStore = create<SessionState>()(
@@ -102,7 +102,7 @@ export const useSessionStore = create<SessionState>()(
           user: userData,
           isAuthenticated: true,
           isLoading: false,
-          secureDataLoaded: true,
+          secureDataLoaded: true
         })
       },
 
@@ -129,11 +129,21 @@ export const useSessionStore = create<SessionState>()(
           } else {
             session = localStorage.getItem('session')
           }
-          set({ session, isAuthenticated: !!session, secureDataLoaded: true, isLoading: false })
+          set({
+            session,
+            isAuthenticated: !!session,
+            secureDataLoaded: true,
+            isLoading: false
+          })
         } catch {
-          set({ session: null, isAuthenticated: false, secureDataLoaded: true, isLoading: false })
+          set({
+            session: null,
+            isAuthenticated: false,
+            secureDataLoaded: true,
+            isLoading: false
+          })
         }
-      },
+      }
     }),
     {
       name: 'session-storage',
@@ -144,7 +154,7 @@ export const useSessionStore = create<SessionState>()(
           state.isAuthenticated = !!state.session
           state.isLoading = false
         }
-      },
+      }
     }
   )
 )
@@ -181,7 +191,7 @@ export const useSessionActions = () =>
       signIn: state.signIn,
       signOut: state.signOut,
       reset: state.reset,
-      loadSecureData: state.loadSecureData,
+      loadSecureData: state.loadSecureData
     }))
   )
 

@@ -14,15 +14,15 @@ const SettingsScreen = memo(() => {
   }, [signOut])
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <View className="flex-1 gap-6 p-6">
+    <SafeAreaView className="bg-background flex-1" edges={['top', 'bottom']}>
+      <View className="h-full gap-6 p-6">
         <Text variant="h2" accessible accessibilityRole="header">
           Settings
         </Text>
 
         {user ? (
           <View
-            className="rounded-lg border border-border p-4"
+            className="border-border rounded-lg border p-4"
             accessible
             accessibilityLabel={`Signed in as ${user.name}, ${user.email}`}>
             <Text variant="large" accessible={false}>

@@ -21,8 +21,8 @@ const HomeScreen = memo(() => {
   }, [navigation])
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <View className="flex-1 items-center justify-center gap-6 p-8">
+    <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
+      <View className="h-full items-center justify-center gap-6 p-8">
         <Text variant="h1" accessible accessibilityRole="header">
           Welcome
         </Text>
