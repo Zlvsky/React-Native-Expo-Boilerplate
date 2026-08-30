@@ -4,9 +4,6 @@
 
 @import "nativewind/theme";
 
-/* Class-based dark mode — dark: variants respond to .dark ancestor */
-@variant dark (&:where(.dark, .dark *));
-
 /* Map Tailwind color utilities to semantic CSS variables */
 @theme inline {
   --color-background: var(--background);

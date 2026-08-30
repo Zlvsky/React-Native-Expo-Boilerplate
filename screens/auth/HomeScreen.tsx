@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button'
 import { Text } from '@/components/ui/text'
 import type { AuthStackParamList } from '@/navigation/AuthNavigator'
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { memo, useCallback } from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -20,8 +20,12 @@ const HomeScreen = memo(() => {
     navigation.navigate('SignUp')
   }, [navigation])
 
+  const handleOpenDevelopment = useCallback(() => {
+    navigation.navigate('Development')
+  }, [navigation])
+
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
+    <SafeAreaView className="bg-background flex-1" edges={['top', 'bottom']}>
       <View className="h-full items-center justify-center gap-6 p-8">
         <Text variant="h1" accessible accessibilityRole="header">
           Welcome
@@ -33,16 +37,28 @@ const HomeScreen = memo(() => {
           <Button
             onPress={handleSignIn}
             accessibilityRole="button"
-            accessibilityLabel="Sign in to your account">
+            accessibilityLabel="Sign in to your account"
+          >
             <Text>Sign In</Text>
           </Button>
           <Button
             variant="outline"
             onPress={handleSignUp}
             accessibilityRole="button"
-            accessibilityLabel="Create a new account">
+            accessibilityLabel="Create a new account"
+          >
             <Text>Create Account</Text>
           </Button>
+          {__DEV__ ? (
+            <Button
+              variant="ghost"
+              onPress={handleOpenDevelopment}
+              accessibilityRole="button"
+              accessibilityLabel="Open development component gallery"
+            >
+              <Text>Development Gallery</Text>
+            </Button>
+          ) : null}
         </View>
       </View>
     </SafeAreaView>
