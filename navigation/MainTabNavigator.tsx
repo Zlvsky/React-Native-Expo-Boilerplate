@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { StatusBar } from 'react-native'
 
 import HomeNavigator from '@/navigation/HomeNavigator'
 import SettingsNavigator from '@/navigation/SettingsNavigator'
 
-export type MainTabParamList = {
+type MainTabParamList = {
   Home: undefined
   Settings: undefined
 }
@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator<MainTabParamList>()
 
 const SCREEN_OPTIONS = {
   headerShown: false,
-  tabBarShowLabel: true,
+  tabBarShowLabel: true
 }
 
 const MainTabNavigator = memo(() => {

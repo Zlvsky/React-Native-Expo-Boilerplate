@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { memo, useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { StatusBar, useColorScheme } from 'react-native'
 
 import { THEME_COLORS } from '@/constants/theme'

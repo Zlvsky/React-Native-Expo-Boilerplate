@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx'
 import { intervalToDuration } from 'date-fns'
-import { twMerge } from 'tailwind-merge'
 import { Dimensions, PixelRatio, StyleSheet } from 'react-native'
+import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -27,9 +27,9 @@ export const secondsRemaining = (parsedDate: string) => {
 export const secondsToTimeHours = (seconds: number) => {
   let secondsToParse = seconds
   if (secondsToParse === 86400) secondsToParse -= 1
-  var date = new Date(0)
+  const date = new Date(0)
   date.setSeconds(secondsToParse)
-  var timeString = date.toISOString().substring(11, 19)
+  const timeString = date.toISOString().substring(11, 19)
   return timeString
 }
 
@@ -154,7 +154,6 @@ export const moderateVerticalScale = (size: number, factor: number = 0.5): numbe
   return size + (verticalScale(size) - size) * factor
 }
 
-
 /**
  * Scale size based on screen height
  * @param size - The base size to scale
@@ -179,7 +178,7 @@ const scaleSizeCache = new Map<number, number>()
 export const scaleSize = (size: number): number => {
   const cached = scaleSizeCache.get(size)
   if (cached !== undefined) return cached
-  
+
   const result = PixelRatio.roundToNearestPixel(SCALE_SIZE_FACTOR * size)
   scaleSizeCache.set(size, result)
   return result
@@ -219,7 +218,7 @@ export const scaledValues = {
   s180: scaleSize(180),
   s192: scaleSize(192),
   s200: scaleSize(200),
-  s250: scaleSize(250),
+  s250: scaleSize(250)
 } as const
 
 /**
@@ -270,10 +269,10 @@ export const getResponsiveClass = (
   }
 ): string => {
   if (!responsiveClasses) return baseClass
-  
+
   const deviceScale = getDeviceScale()
   const responsiveClass = responsiveClasses[deviceScale] || ''
-  
+
   return cn(baseClass, responsiveClass)
 }
 
@@ -474,7 +473,6 @@ export const scaledSizes = StyleSheet.create({
   scaleW80: { width: scaleSize(320) },
   scaleW96: { width: scaleSize(384) },
   scaleW125: { width: scaleSize(500) },
-  
 
   // Height only
   h0_5: { height: verticalScale(2) },
@@ -691,7 +689,7 @@ export const scaledSizes = StyleSheet.create({
   maxH96: { maxHeight: verticalScale(384) },
   maxH150: { maxHeight: verticalScale(600) },
   maxH180: { maxHeight: verticalScale(720) },
-  maxH200: { maxHeight: verticalScale(800) },
+  maxH200: { maxHeight: verticalScale(800) }
 })
 
 /**

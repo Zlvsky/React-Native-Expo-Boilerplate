@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Text } from '@/components/ui/text'
 import { useSessionActions, useUser } from '@/store/sessionStore'
-import React, { memo, useCallback } from 'react'
+import { memo, useCallback } from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -24,7 +24,8 @@ const SettingsScreen = memo(() => {
           <View
             className="border-border rounded-lg border p-4"
             accessible
-            accessibilityLabel={`Signed in as ${user.name}, ${user.email}`}>
+            accessibilityLabel={`Signed in as ${user.name}, ${user.email}`}
+          >
             <Text variant="large" accessible={false}>
               {user.name}
             </Text>
@@ -38,7 +39,8 @@ const SettingsScreen = memo(() => {
           variant="destructive"
           onPress={handleSignOut}
           accessibilityRole="button"
-          accessibilityLabel="Sign out of your account">
+          accessibilityLabel="Sign out of your account"
+        >
           <Text>Sign Out</Text>
         </Button>
       </View>

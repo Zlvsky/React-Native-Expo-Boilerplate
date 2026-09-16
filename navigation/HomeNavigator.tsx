@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { memo, useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { useColorScheme } from 'react-native'
 
 import { THEME_COLORS } from '@/constants/theme'
@@ -16,8 +16,8 @@ const HomeNavigator = memo(() => {
       headerShown: false,
       animation: 'slide_from_right' as const,
       contentStyle: {
-        backgroundColor: THEME_COLORS[themeMode].background,
-      },
+        backgroundColor: THEME_COLORS[themeMode].background
+      }
     }),
     [themeMode]
   )

@@ -54,7 +54,7 @@ import type { AuthStackParamList } from '@/navigation/AuthNavigator'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { Bell, Bold, Info, Settings, Sparkles, TriangleAlert } from 'lucide-react-native'
-import React, { memo, useCallback, useState, type ReactNode } from 'react'
+import { memo, useCallback, useState, type ReactNode } from 'react'
 import { ScrollView, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -127,7 +127,7 @@ const ComponentGalleryScreen = memo(() => {
           <Text>Default body copy shows the standard reading style.</Text>
           <Text variant="small">Small label text</Text>
           <Text variant="muted">Muted supporting text</Text>
-          <Text variant="code">npm run start</Text>
+          <Text variant="code">bun start</Text>
         </Section>
 
         <Section title="Buttons">

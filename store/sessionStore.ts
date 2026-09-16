@@ -1,203 +1,141 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as SecureStore from 'expo-secure-store'
 import React from 'react'
 import { Platform } from 'react-native'
 import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
 import { useShallow } from 'zustand/react/shallow'
 
 import type { User } from '@/types'
+import {
+  parseStoredSession,
+  serializeStoredSession,
+  type IStoredSession
+} from './sessionPersistence'
 
-// Secure storage adapter — uses SecureStore for session tokens, AsyncStorage otherwise
-const createSecureStorage = () => ({
-  getItem: async (key: string): Promise<string | null> => {
-    try {
-      if (Platform.OS === 'web') return localStorage.getItem(key)
-      if (key.includes('session') || key.includes('token')) {
-        return await SecureStore.getItemAsync(key)
-      }
-      return await AsyncStorage.getItem(key)
-    } catch {
-      return null
-    }
-  },
-  setItem: async (key: string, value: string): Promise<void> => {
-    try {
-      if (Platform.OS === 'web') {
-        localStorage.setItem(key, value)
-        return
-      }
-      if (key.includes('session') || key.includes('token')) {
-        await SecureStore.setItemAsync(key, value)
-        return
-      }
-      await AsyncStorage.setItem(key, value)
-    } catch (error) {
-      throw error
-    }
-  },
-  removeItem: async (key: string): Promise<void> => {
-    try {
-      if (Platform.OS === 'web') {
-        localStorage.removeItem(key)
-        return
-      }
-      if (key.includes('session') || key.includes('token')) {
-        await SecureStore.deleteItemAsync(key)
-        return
-      }
-      await AsyncStorage.removeItem(key)
-    } catch {
-      // Do not throw on remove errors to prevent crashes
-    }
-  }
-})
+const SESSION_STORAGE_KEY = 'app-session'
 
-interface SessionState {
+interface ISessionState {
   session: string | null
   user: User | null
-  isLoading: boolean
-  secureDataLoaded: boolean
+  isHydrated: boolean
   isAuthenticated: boolean
-  setSession: (session: string | null) => void
-  setUser: (user: User | null) => void
-  setIsLoading: (loading: boolean) => void
-  signIn: (token: string, userData: User) => Promise<void>
+  hydrate: () => Promise<void>
+  signIn: (token: string, user: User) => Promise<void>
   signOut: () => Promise<void>
-  reset: () => void
-  loadSecureData: () => Promise<void>
 }
 
-const INITIAL_STATE = {
+const readSession = async (): Promise<IStoredSession | null> => {
+  const value =
+    Platform.OS === 'web'
+      ? globalThis.localStorage?.getItem(SESSION_STORAGE_KEY)
+      : await SecureStore.getItemAsync(SESSION_STORAGE_KEY)
+
+  return parseStoredSession(value ?? null)
+}
+
+const writeSession = async (value: IStoredSession): Promise<void> => {
+  const serialized = serializeStoredSession(value)
+
+  if (Platform.OS === 'web') {
+    globalThis.localStorage?.setItem(SESSION_STORAGE_KEY, serialized)
+    return
+  }
+
+  await SecureStore.setItemAsync(SESSION_STORAGE_KEY, serialized)
+}
+
+const removeSession = async (): Promise<void> => {
+  if (Platform.OS === 'web') {
+    globalThis.localStorage?.removeItem(SESSION_STORAGE_KEY)
+    return
+  }
+
+  await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY)
+}
+
+let hydrationPromise: Promise<void> | null = null
+
+const useSessionStore = create<ISessionState>((set, get) => ({
   session: null,
   user: null,
-  isLoading: true,
-  secureDataLoaded: false,
-  isAuthenticated: false
-} as const
+  isHydrated: false,
+  isAuthenticated: false,
 
-export const useSessionStore = create<SessionState>()(
-  persist(
-    (set) => ({
-      ...INITIAL_STATE,
+  hydrate: async () => {
+    if (get().isHydrated) {
+      return
+    }
 
-      setSession: (session) => set({ session, isAuthenticated: !!session }),
+    if (hydrationPromise) {
+      return hydrationPromise
+    }
 
-      setUser: (user) => set({ user }),
-
-      setIsLoading: (isLoading) => set({ isLoading }),
-
-      signIn: async (token, userData) => {
-        try {
-          if (Platform.OS !== 'web') {
-            await SecureStore.setItemAsync('session', token)
-          } else {
-            localStorage.setItem('session', token)
-          }
-        } catch (error) {
-          throw error
-        }
+    hydrationPromise = readSession()
+      .then((storedSession) => {
         set({
-          session: token,
-          user: userData,
-          isAuthenticated: true,
-          isLoading: false,
-          secureDataLoaded: true
+          session: storedSession?.session ?? null,
+          user: storedSession?.user ?? null,
+          isAuthenticated: Boolean(storedSession?.session),
+          isHydrated: true
         })
-      },
+      })
+      .catch(() => {
+        set({
+          session: null,
+          user: null,
+          isAuthenticated: false,
+          isHydrated: true
+        })
+      })
+      .finally(() => {
+        hydrationPromise = null
+      })
 
-      signOut: async () => {
-        try {
-          if (Platform.OS !== 'web') {
-            await SecureStore.deleteItemAsync('session')
-          } else {
-            localStorage.removeItem('session')
-          }
-        } catch {
-          // Continue even if clearing storage fails
-        }
-        set({ session: null, user: null, isAuthenticated: false })
-      },
+    return hydrationPromise
+  },
 
-      reset: () => set({ ...INITIAL_STATE }),
+  signIn: async (token, user) => {
+    await writeSession({ session: token, user })
+    set({ session: token, user, isAuthenticated: true, isHydrated: true })
+  },
 
-      loadSecureData: async () => {
-        try {
-          let session: string | null = null
-          if (Platform.OS !== 'web') {
-            session = await SecureStore.getItemAsync('session')
-          } else {
-            session = localStorage.getItem('session')
-          }
-          set({
-            session,
-            isAuthenticated: !!session,
-            secureDataLoaded: true,
-            isLoading: false
-          })
-        } catch {
-          set({
-            session: null,
-            isAuthenticated: false,
-            secureDataLoaded: true,
-            isLoading: false
-          })
-        }
-      }
-    }),
-    {
-      name: 'session-storage',
-      storage: createJSONStorage(() => createSecureStorage()),
-      partialize: (state) => ({ session: state.session, user: state.user }),
-      onRehydrateStorage: () => (state) => {
-        if (state) {
-          state.isAuthenticated = !!state.session
-          state.isLoading = false
-        }
-      }
+  signOut: async () => {
+    try {
+      await removeSession()
+    } finally {
+      set({ session: null, user: null, isAuthenticated: false, isHydrated: true })
     }
+  }
+}))
+
+export const useSessionData = () =>
+  useSessionStore(
+    useShallow((state) => ({
+      session: state.session,
+      user: state.user,
+      isLoading: !state.isHydrated
+    }))
   )
-)
 
-// --- Hooks ---
-
-export const useSessionData = () => {
-  const session = useSessionStore((state) => state.session)
-  const secureDataLoaded = useSessionStore((state) => state.secureDataLoaded)
-  const isLoading = useSessionStore((state) => state.isLoading)
-  return { session, isLoading: !secureDataLoaded || isLoading }
-}
-
-export const useSession = () => useSessionData()
-export const useUser = () => useSessionStore((state) => state.user)
-export const useIsAuthenticated = () => useSessionStore((state) => state.isAuthenticated)
-
+export const useUser = () => useSessionStore(selectUser)
 export const useSessionInitializer = () => {
-  const secureDataLoaded = useSessionStore((state) => state.secureDataLoaded)
-  const loadSecureData = useSessionStore((state) => state.loadSecureData)
+  const isHydrated = useSessionStore(selectIsHydrated)
+  const hydrate = useSessionStore(selectHydrate)
+
   React.useEffect(() => {
-    if (!secureDataLoaded) {
-      loadSecureData()
+    if (!isHydrated) {
+      void hydrate()
     }
-  }, [secureDataLoaded, loadSecureData])
+  }, [hydrate, isHydrated])
 }
 
 export const useSessionActions = () =>
   useSessionStore(
     useShallow((state) => ({
-      setSession: state.setSession,
-      setUser: state.setUser,
-      setIsLoading: state.setIsLoading,
       signIn: state.signIn,
-      signOut: state.signOut,
-      reset: state.reset,
-      loadSecureData: state.loadSecureData
+      signOut: state.signOut
     }))
   )
 
-// --- Selectors ---
-
-export const selectSession = (state: SessionState) => state.session
-export const selectUser = (state: SessionState) => state.user
-export const selectIsAuthenticated = (state: SessionState) => state.isAuthenticated
-export const selectIsLoading = (state: SessionState) => state.isLoading
+const selectUser = (state: ISessionState) => state.user
+const selectIsHydrated = (state: ISessionState) => state.isHydrated
+const selectHydrate = (state: ISessionState) => state.hydrate

@@ -6,3 +6,7 @@ build
 .husky
 .expo
 .vscode
+android
+ios
+assets
+.github/skills

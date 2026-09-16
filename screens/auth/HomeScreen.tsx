@@ -3,7 +3,7 @@ import { Text } from '@/components/ui/text'
 import type { AuthStackParamList } from '@/navigation/AuthNavigator'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import React, { memo, useCallback } from 'react'
+import { memo, useCallback } from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 

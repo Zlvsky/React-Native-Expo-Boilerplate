@@ -1,0 +1,20 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "App.tsx",
+    "RootAppShell.tsx",
+    "components/ui/*.tsx",
+    "components/special/*.tsx",
+    "constants/animations.ts",
+    "lib/utils/index.ts",
+    "store/toastStore.ts"
+  ],
+  "project": [
+    "**/*.{css,js,mjs,ts,tsx}",
+    "!android/**",
+    "!ios/**",
+    "!.expo/**",
+    "!dist/**"
+  ],
+  "ignoreDependencies": ["expo-updates", "zod-validation-error"]
+}

@@ -1,7 +1,7 @@
-import { create } from "zustand"
-import i18n from "@/i18n/config"
+import i18n from '@/i18n/config'
+import { create } from 'zustand'
 
-export type ToastType = "SUCCESS" | "FAILURE" | "WARN"
+export type ToastType = 'SUCCESS' | 'FAILURE' | 'WARN'
 
 export interface ToastOptions {
   type?: ToastType
@@ -35,7 +35,7 @@ const isApiTranslationKey = (message: string): boolean => {
  */
 export const translateApiMessage = (message: string): string => {
   if (!message) return message
-  
+
   if (isApiTranslationKey(message)) {
     const apiKey = `api.${message}`
     const translated = i18n.t(apiKey)
@@ -44,7 +44,7 @@ export const translateApiMessage = (message: string): string => {
       return translated
     }
   }
-  
+
   return message
 }
 
@@ -53,10 +53,12 @@ export const useToastStore = create<ToastStore>((set) => ({
   toasts: [],
   addToast: (message, options = {}) => {
     const id = Math.random().toString(36).substring(2, 11)
-    const type = options.type || "FAILURE"
+    const type = options.type || 'FAILURE'
     // Automatically translate API messages
     const translatedMessage = translateApiMessage(message)
-    set((state) => ({ toasts: [...state.toasts, { id, message: translatedMessage, type }] }))
+    set((state) => ({
+      toasts: [...state.toasts, { id, message: translatedMessage, type }]
+    }))
   },
   removeToast: (id) =>
     set((state) => ({

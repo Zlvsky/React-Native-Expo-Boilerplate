@@ -3,9 +3,9 @@ import { Input } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 import type { AuthStackParamList } from '@/navigation/AuthNavigator'
 import { useSessionActions } from '@/store/sessionStore'
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
-import React, { memo, useCallback, useState } from 'react'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { memo, useCallback, useState } from 'react'
 import { KeyboardAvoidingView, Platform, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -83,14 +83,16 @@ const SignUpScreen = memo(() => {
               onPress={handleSignUp}
               disabled={isLoading || !name || !email || !password}
               accessibilityRole="button"
-              accessibilityLabel="Create account">
+              accessibilityLabel="Create account"
+            >
               <Text>{isLoading ? 'Creating account...' : 'Create Account'}</Text>
             </Button>
             <Button
               variant="ghost"
               onPress={handleGoBack}
               accessibilityRole="button"
-              accessibilityLabel="Go back">
+              accessibilityLabel="Go back"
+            >
               <Text>Go Back</Text>
             </Button>
           </View>

@@ -1,6 +1,6 @@
 import { Text } from '@/components/ui/text'
 import { useUser } from '@/store/sessionStore'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -17,7 +17,8 @@ const CharacterScreen = memo(() => {
           <Text
             variant="muted"
             accessible
-            accessibilityLabel={`Welcome back, ${user.name}`}>
+            accessibilityLabel={`Welcome back, ${user.name}`}
+          >
             Welcome back, {user.name}!
           </Text>
         ) : (

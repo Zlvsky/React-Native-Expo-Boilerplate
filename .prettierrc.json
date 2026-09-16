@@ -8,7 +8,6 @@
   "semi": false,
   "useTabs": false,
   "bracketSameLine": false,
-  "jsxBracketSameLine": true,
   "proseWrap": "never",
   "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"]
 }

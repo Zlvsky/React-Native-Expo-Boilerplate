@@ -6,10 +6,9 @@ import { initReactI18next } from 'react-i18next'
 import en from './translations/en.json'
 import pl from './translations/pl.json'
 
-
 const resources = {
   en: { translation: en },
-  pl: { translation: pl },
+  pl: { translation: pl }
 }
 
 const DEFAULT_LANGUAGE = 'en'
@@ -22,6 +21,7 @@ const getLocale = () => {
 
 const initI18n = () => {
   const language = getLocale()
+  // eslint-disable-next-line import/no-named-as-default-member -- i18next default instance API
   i18n.use(initReactI18next).init({
     resources,
     lng: language,
